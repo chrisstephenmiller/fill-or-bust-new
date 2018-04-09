@@ -11,4 +11,5 @@ body {
 #live-dice, #held-dice {
   display: inline-flex;
   flex-direction: column;
+  margin: 50px;
 }

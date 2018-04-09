@@ -5,9 +5,10 @@ class Dice extends Component {
     super()
 
     this.state = {
-      diceToRoll: 6,
       liveDice: [],
       heldDice: [],
+      bankedDice: [],
+      diceToRoll: 6,
     }
   }
 
@@ -16,58 +17,82 @@ class Dice extends Component {
   }
 
   die = () => {
-    return Math.floor(Math.random() * 6 + 1)
+    return { value: Math.floor(Math.random() * 6 + 1), status: `live` }
   }
 
   rollDice = () => {
-    const d = this.state.diceToRoll
+    let { heldDice, bankedDice, diceToRoll } = this.state
+    heldDice.forEach(d => d.status = `banked`)
+    const allDice = [...heldDice, ...bankedDice]
+    bankedDice = allDice.filter(d => d.status === `banked`)
+    heldDice = allDice.filter(d => d.status === `held`)
     const liveDice = []
-    for (let i = d; i > 0; i--) { liveDice.push(this.die()) }
-    this.setState({ liveDice })
+    for (let i = diceToRoll; i > 0; i--) { liveDice.push(this.die()) }
+    this.setState({ liveDice, heldDice, bankedDice })
   }
 
-  holdDice = event => {
-    event.target.classList.toggle('held')
-    const dice = Array.from(document.getElementById('live-dice').children).concat(Array.from(document.getElementById('held-dice').children))
-    console.log(dice)
-    const heldDice = dice.map(die => die.className === 'held' && +die.innerHTML).filter(d => d !== false)
-    const liveDice = dice.map(die => die.className !== 'held' && +die.innerHTML).filter(d => d !== false)
-    const diceToRoll = dice.length - heldDice.length
-    this.setState({ heldDice, liveDice, diceToRoll })
+  toggleDice = d => {
+    let { liveDice, heldDice, bankedDice } = this.state
+    d.status = d.status === `live` ? `held` : `live`
+    const allDice = [...liveDice, ...heldDice, ...bankedDice]
+    liveDice = allDice.filter(d => d.status === `live`)
+    heldDice = allDice.filter(d => d.status === `held`)
+    bankedDice = allDice.filter(d => d.status === `banked`)
+    const diceToRoll = liveDice.length
+    this.setState({ liveDice, heldDice, bankedDice, diceToRoll })
   }
 
   render() {
-    console.log(this.state)
+    console.log(`render-state:`, this.state)
     return (
       <div id="game">
         <div id="dice">
           <div id="live-dice">
             {this.state.liveDice.map((d, i) => {
               return (
-                <h1
-                  key={`${i}-${d}`}
-                  value={d}
-                  onClick={this.holdDice}>
-                  {d}
-                </h1>
+                <img
+                  width="50"
+                  height="50"
+                  src={`https://cdn2.iconfinder.com/data/icons/dice-roll/100/dice_${d.value}-256.png`}
+                  key={`${i}-${d.value}`}
+                  onClick={() => this.toggleDice(d)}
+                  alt={d.value}>
+                </img>
               )
             })}
           </div>
           <div id="held-dice">
             {this.state.heldDice.map((d, i) => {
               return (
-                <h1
-                  key={`${i}-${d}`}
-                  value={d}
-                  className="held"
-                  onClick={this.holdDice}>
-                  {d}
-                </h1>
+                <img
+                  width="50"
+                  height="50"
+                  src={`https://cdn2.iconfinder.com/data/icons/dice-roll/100/dice_${d.value}-256.png`}
+                  key={`${i}-${d.value}`}
+                  className='held'
+                  onClick={() => this.toggleDice(d)}
+                  alt={d.value}>
+                </img>
+              )
+            })}
+          </div>
+          <div id="banked-dice">
+            {this.state.bankedDice.map((d, i) => {
+              return (
+                <img
+                  width="50"
+                  height="50"
+                  src={`https://cdn2.iconfinder.com/data/icons/dice-roll/100/dice_${d.value}-256.png`}
+                  key={`${i}-${d.value}`}
+                  className='banked'
+                  alt={d.value}>
+                </img>
               )
             })}
           </div>
         </div>
         <button
+          onClick={this.rollDice}
           id="roll-btn">
           Roll
         </button>
