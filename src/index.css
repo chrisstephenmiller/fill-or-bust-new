@@ -16,19 +16,47 @@ body {
 }
 
 #roll-btn {
+  display: inline-flex;
+  justify-content: space-between;
+  width: 280px;
+}
+
+#roll-btn button[value=true] {
   display: block;
-  width: 100px;
   font-size: 32px;
+  color: black;
   border: 3px solid black;
   border-radius: 25%;
 }
 
-#roll-btn:hover{
+#roll-btn button[value=false] {
+  display: block;
+  font-size: 32px;
+  color: grey;
+  background-color: lightgray;
+  border: 3px solid grey;
+  border-radius: 25%;
+}
+
+#roll-btn > button[value=true]:hover {
   color: white;
-  background-color: grey;
+  background-color: lightgreen;
   box-shadow: 1px 1px 1px black;
 }
 
-#roll-btn:focus {
+#roll-btn > button[value=false]:hover {
+  color: lightcoral;
+}
+
+#roll-btn > button:focus {
   outline: none;
+}
+
+.pointer-error {
+  opacity: 0;
+}
+
+.pointer-error.visible {
+  opacity: 1;
+  color: lightcoral;
 }
