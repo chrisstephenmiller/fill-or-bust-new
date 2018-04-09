@@ -32,23 +32,23 @@ class Dice extends Component {
   }
 
   toggleDice = d => {
-    let { liveDice, heldDice, bankedDice } = this.state
+    let { liveDice, heldDice } = this.state
     d.status = d.status === `live` ? `held` : `live`
-    const allDice = [...liveDice, ...heldDice, ...bankedDice]
+    const allDice = [...liveDice, ...heldDice]
     liveDice = allDice.filter(d => d.status === `live`)
     heldDice = allDice.filter(d => d.status === `held`)
-    bankedDice = allDice.filter(d => d.status === `banked`)
     const diceToRoll = liveDice.length
-    this.setState({ liveDice, heldDice, bankedDice, diceToRoll })
+    this.setState({ liveDice, heldDice, diceToRoll })
   }
 
   render() {
     console.log(`render-state:`, this.state)
+    const {liveDice, heldDice, bankedDice} = this.state
     return (
       <div id="game">
         <div id="dice">
           <div id="live-dice">
-            {this.state.liveDice.map((d, i) => {
+            {liveDice.map((d, i) => {
               return (
                 <img
                   width="50"
@@ -62,7 +62,7 @@ class Dice extends Component {
             })}
           </div>
           <div id="held-dice">
-            {this.state.heldDice.map((d, i) => {
+            {heldDice.map((d, i) => {
               return (
                 <img
                   width="50"
@@ -77,7 +77,7 @@ class Dice extends Component {
             })}
           </div>
           <div id="banked-dice">
-            {this.state.bankedDice.map((d, i) => {
+            {bankedDice.map((d, i) => {
               return (
                 <img
                   width="50"
