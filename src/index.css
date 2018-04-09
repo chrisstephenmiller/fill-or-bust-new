@@ -4,12 +4,31 @@ body {
   font-family: sans-serif;
 }
 
-.held {
-  color: red
-}
-
-#live-dice, #held-dice {
+#dice {
   display: inline-flex;
   flex-direction: column;
-  margin: 50px;
+  margin: 10px;
+}
+
+.dice-row {
+  display: inline-flex;
+  height: 100px;
+}
+
+#roll-btn {
+  display: block;
+  width: 100px;
+  font-size: 32px;
+  border: 3px solid black;
+  border-radius: 25%;
+}
+
+#roll-btn:hover{
+  color: white;
+  background-color: grey;
+  box-shadow: 1px 1px 1px black;
+}
+
+#roll-btn:focus {
+  outline: none;
 }
