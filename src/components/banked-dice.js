@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 
-
 class BankedDice extends Component {
-  constructor() {
-    super()
-  }
-
   render() {
     const { bankedDice } = this.props
     return (

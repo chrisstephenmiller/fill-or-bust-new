@@ -24,7 +24,7 @@ class Game extends Component {
           </div>
         </div>
         <Roll />
-      </div>
+        </div>
     );
   }
 }

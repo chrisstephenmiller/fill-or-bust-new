@@ -1,29 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { rollLiveDice, setBankDice, setHeldDice, setDiceToRoll } from '../reducers'
+import { setBankDice, setHeldDice, rollLiveDice, } from '../reducers'
 
-class Dice extends Component {
-  constructor() {
-    super()
 
-    this.state = {
-      liveDice: [],
-      heldDice: [],
-      bankedDice: [],
-      diceToRoll: 6,
-      currentScore: 0,
-      totalScore: 0,
-    }
-  }
+class Roll extends Component {
 
   render() {
-    const { rollDice, diceToRoll, heldDice, bankDice } = this.props
+    const { heldDice, diceToRoll, bankDice, rollDice} = this.props
     return (
       <div id="roll-btn">
         <button
           onClick={() => {
             bankDice(heldDice)
-
             rollDice(diceToRoll)
           }}>
           Roll
@@ -36,9 +24,8 @@ class Dice extends Component {
 
 const mapStateToProps = state => {
   return {
-    liveDice: state.liveDice,
     heldDice: state.heldDice,
-    diceToRoll: state.diceToRoll
+    diceToRoll: state.diceToRoll,
   }
 }
 
@@ -61,6 +48,6 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-const DiceContainer = connect(mapStateToProps, mapDispatchToProps)(Dice)
+const RollContainer = connect(mapStateToProps, mapDispatchToProps)(Roll)
 
-export default DiceContainer
+export default RollContainer

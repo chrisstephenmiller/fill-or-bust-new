@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { setLiveDice, setHeldDice, setDiceToRoll} from '../reducers'
+import { setLiveDice, setHeldDice, setDiceToRoll } from '../reducers'
 
 class HeldDice extends Component {
-  constructor() {
-    super()
-  }
-
   render() {
     const { liveDice, heldDice, toggleDice } = this.props
     return (
@@ -34,6 +30,7 @@ const mapStateToProps = state => {
   return {
     liveDice: state.liveDice,
     heldDice: state.heldDice,
+    currentScore: state.currentScore,
   }
 }
 

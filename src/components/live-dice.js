@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { setLiveDice, setHeldDice, setDiceToRoll } from '../reducers'
+import { setLiveDice, setHeldDice, setDiceToRoll, setCurrentScore } from '../reducers'
 
 class LiveDice extends Component {
-  constructor() {
-    super()
-  }
-
   render() {
     const { liveDice, heldDice, toggleDice } = this.props
     return (
@@ -47,6 +43,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(setLiveDice(liveDice))
       dispatch(setHeldDice(heldDice))
       dispatch(setDiceToRoll(liveDice.length))
+      dispatch(setCurrentScore(heldDice))
     }
   }
 }
