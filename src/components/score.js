@@ -24,8 +24,8 @@ class Score extends Component {
 
 
   render() {
-    const { currentScore } = this.props
-    console.log(this.props)
+    const { currentScore, heldDice } = this.props
+    // setCurrentScore(heldDice)
     return (
       <div id="score">
         <h1>Current score: {currentScore} </h1>
@@ -35,10 +35,11 @@ class Score extends Component {
 }
 
 const mapStateToProps = state => {
+  const {heldDice, currentScore, totalScore} = state
   return {
-    heldDice: [],
-    currentScore: 0,
-    totalScore: 0,
+    heldDice,
+    currentScore,
+    totalScore,
   }
 }
 
@@ -50,7 +51,7 @@ const countPointers = heldDice => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getCurrentScore: (heldDice, currentScore) => {
+    setCurrentScore: (heldDice, currentScore) => {
       const pointers = countPointers(heldDice)
       if (pointers[0] > 2) { currentScore += 250 * 2 ** (pointers[0] - 1) } else currentScore += 100 * pointers[0];
       if (pointers[1] > 2) currentScore += 50 * 2 ** (pointers[1] - 1)
@@ -59,7 +60,7 @@ const mapDispatchToProps = dispatch => {
       if (pointers[4] > 2) { currentScore += 125 * 2 ** (pointers[4] - 1) } else currentScore += 50 * pointers[4]
       if (pointers[5] > 2) currentScore += 150 * 2 ** (pointers[5] - 1)
       if (pointers.filter(p => p === 1).length === 6) currentScore = 1500
-      dispatch(setCurrentScore(currentScore))
+      // dispatch(setCurrentScore(currentScore))
       // this.validatePointers()
     }
   }

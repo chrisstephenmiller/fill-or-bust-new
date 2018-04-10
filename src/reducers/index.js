@@ -11,7 +11,7 @@ const rollDice = diceToRoll => {
 const initialState = {
   liveDice: rollDice(6),
   heldDice: [],
-  bankedDice: [],
+  bankDice: [],
   diceToRoll: 6,
   currentScore: 0,
   totalScore: 0,
@@ -84,7 +84,7 @@ const reducer = (state = initialState, action) => {
         }
     case SET_BANK_DICE:
       return {
-        ...state, bankedDice: [...state.bankedDice, ...action.heldDice]
+        ...state, bankDice: [...state.bankDice, ...action.heldDice]
       }
     case SET_DICE_TO_ROLL:
       return {

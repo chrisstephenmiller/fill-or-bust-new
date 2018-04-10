@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { setBankDice, setHeldDice, rollLiveDice, } from '../reducers'
 
-
 class Roll extends Component {
 
   render() {
-    const { heldDice, diceToRoll, bankDice, rollDice} = this.props
+    const { heldDice, diceToRoll, bankDice, rollDice } = this.props
     return (
-      <div id="roll-btn">
+      <div id="roll">
         <button
+          id="roll-btn"
+          value="true"
           onClick={() => {
             bankDice(heldDice)
             rollDice(diceToRoll)
@@ -36,7 +37,7 @@ const rollDie = () => {
 const mapDispatchToProps = dispatch => {
   return {
     bankDice: heldDice => {
-      heldDice.forEach(d => d.status = `banked`)
+      heldDice.forEach(d => d.status = `bank`)
       dispatch(setBankDice(heldDice))
       dispatch(setHeldDice([]))
     },

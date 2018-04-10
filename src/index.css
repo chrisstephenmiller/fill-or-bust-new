@@ -1,5 +1,5 @@
 body {
-  margin: 0;
+  margin: 10px;
   padding: 0;
   font-family: sans-serif;
 }
@@ -10,24 +10,27 @@ body {
   margin: 10px;
 }
 
-#dice {
-  display: inline-flex;
+#all-dice {
+  display: flex;
   flex-direction: column;
-  margin: 10px;
 }
 
 .dice-row {
   display: inline-flex;
-  height: 100px;
+  align-items: center;
 }
 
-#roll-btn {
+.dice-name {
+  width: 75px;
+}
+
+#roll {
   display: inline-flex;
   justify-content: space-between;
-  width: 280px;
+  width: 300px;
 }
 
-#roll-btn button[value=true] {
+#roll-btn[value=true] {
   display: block;
   font-size: 32px;
   color: black;
@@ -35,7 +38,7 @@ body {
   border-radius: 25%;
 }
 
-#roll-btn button[value=false] {
+#roll-btn[value=false] {
   display: block;
   font-size: 32px;
   color: grey;
@@ -44,17 +47,17 @@ body {
   border-radius: 25%;
 }
 
-#roll-btn > button[value=true]:hover {
+#roll-btn[value=true]:hover {
   color: white;
   background-color: lightgreen;
   box-shadow: 1px 1px 1px black;
 }
 
-#roll-btn > button[value=false]:hover {
+#roll-btn[value=false]:hover {
   color: lightcoral;
 }
 
-#roll-btn > button:focus {
+#roll-btn:focus {
   outline: none;
 }
 
@@ -65,4 +68,10 @@ body {
 .pointer-error.visible {
   opacity: 1;
   color: lightcoral;
+}
+
+.die-img {
+  width: 50px;
+  height: 50px;
+  margin: 5px;
 }
