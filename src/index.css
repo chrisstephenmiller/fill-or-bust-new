@@ -4,6 +4,12 @@ body {
   font-family: sans-serif;
 }
 
+#game {
+  display: inline-flex;
+  flex-direction: column;
+  margin: 10px;
+}
+
 #dice {
   display: inline-flex;
   flex-direction: column;

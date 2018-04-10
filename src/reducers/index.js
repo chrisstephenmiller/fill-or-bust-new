@@ -1,5 +1,15 @@
+const rollDie = () => {
+  return { value: Math.floor(Math.random() * 6 + 1), status: `live` }
+}
+
+const rollDice = diceToRoll => {
+  const liveDice = [];
+  for (let i = diceToRoll; i > 0; i--) { liveDice.push(rollDie()) }
+  return liveDice
+}
+
 const initialState = {
-  liveDice: [],
+  liveDice: rollDice(6),
   heldDice: [],
   bankedDice: [],
   diceToRoll: 6,
@@ -7,53 +17,51 @@ const initialState = {
   totalScore: 0,
 }
 
-const ROLL_DICE = `ROLL_DICE`
-const HOLD_DICE = `HOLD_DICE`
-const UNHOLD_DICE = `HOLD_DICE`
-const BANK_DICE = `BANK_DICE`
+const ROLL_LIVE_DICE = `ROLL_LIVE_DICE`
+const SET_LIVE_DICE = `SET_LIVE_DICE`
+const SET_HELD_DICE = `SET_HELD_DICE`
+const SET_BANK_DICE = `SET_BANK_DICE`
 const SET_DICE_TO_ROLL = `SET_DICE_TO_ROLL`
 const SET_CURRENT_SCORE = `SET_CURRENT_SCORE`
 const SET_TOTAL_SCORE = `SET_TOTAL_SCORE`
 
-const rollDice = liveDice => {
+export const rollLiveDice = liveDice => {
   return {
-    type: ROLL_DICE,
+    type: ROLL_LIVE_DICE,
     liveDice
   }
 }
-const holdDice = (liveDice, heldDice) => {
+export const setLiveDice = liveDice => {
   return {
-    type: HOLD_DICE,
-    liveDice,
+    type: SET_LIVE_DICE,
+    liveDice
+  }
+}
+export const setHeldDice = heldDice => {
+  return {
+    type: SET_HELD_DICE,
     heldDice
   }
 }
-const unholdDice = (liveDice, heldDice) => {
+export const setBankDice = heldDice => {
   return {
-    type: UNHOLD_DICE,
-    liveDice,
+    type: SET_BANK_DICE,
     heldDice
   }
 }
-const bankDice = heldDice => {
-  return {
-    type: BANK_DICE,
-    heldDice
-  }
-}
-const setDiceToRoll = diceToRoll => {
+export const setDiceToRoll = diceToRoll => {
   return {
     type: SET_DICE_TO_ROLL,
     diceToRoll
   }
 }
-const setCurrentScore = currentScore => {
+export const setCurrentScore = currentScore => {
   return {
     type: SET_CURRENT_SCORE,
     currentScore
   }
 }
-const setTotalScore = currentScore => {
+export const setTotalScore = currentScore => {
   return {
     type: SET_TOTAL_SCORE,
     currentScore
@@ -62,21 +70,21 @@ const setTotalScore = currentScore => {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case ROLL_DICE:
+    case ROLL_LIVE_DICE:
       return {
         ...state, liveDice: action.liveDice
       }
-    case HOLD_DICE:
+      case SET_LIVE_DICE:
       return {
-        ...state, liveDice: action.liveDice, heldDice: action.heldDice
+        ...state, liveDice: action.liveDice
       }
-    case UNHOLD_DICE:
+      case SET_HELD_DICE:
+        return {
+          ...state, heldDice: action.heldDice
+        }
+    case SET_BANK_DICE:
       return {
-        ...state, liveDice: action.liveDice, heldDice: action.heldDice
-      }
-    case BANK_DICE:
-      return {
-        ...state, bankedDice: [...state.bankedDice, action.heldDice]
+        ...state, bankedDice: [...state.bankedDice, ...action.heldDice]
       }
     case SET_DICE_TO_ROLL:
       return {
@@ -95,3 +103,4 @@ const reducer = (state = initialState, action) => {
 }
 
 export default reducer
+
