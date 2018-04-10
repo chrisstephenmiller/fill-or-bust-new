@@ -62,10 +62,6 @@ body {
 }
 
 .pointer-error {
-  opacity: 0;
-}
-
-.pointer-error.visible {
   opacity: 1;
   color: lightcoral;
 }
