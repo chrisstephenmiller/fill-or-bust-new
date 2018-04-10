@@ -1,8 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css'
+import { Provider } from 'react-redux'
+import { BrowserRouter as Router } from 'react-router-dom';
+import store from './store'
 import Game from './components/game'
-import registerServiceWorker from './registerServiceWorker';
+import './index.css'
 
-ReactDOM.render(<Game />, document.getElementById('root'));
-registerServiceWorker();
+ReactDOM.render(
+  <Provider store={store}>
+  <Router>
+    <Game />
+  </Router>
+</Provider>,
+  document.getElementById('root')
+);

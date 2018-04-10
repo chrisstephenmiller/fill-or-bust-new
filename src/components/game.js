@@ -6,9 +6,6 @@ class Game extends Component {
   constructor() {
     super()
 
-    this.state = {
-      turn: 0,
-    }
   }
 
   render() {

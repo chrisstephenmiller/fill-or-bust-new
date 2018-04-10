@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import LiveDice from './live-dice';
 import HeldDice from './held-dice';
 import BankedDice from './banked-dice';
+import { connect } from 'react-redux'
 
 class Dice extends Component {
   constructor() {
@@ -97,6 +98,7 @@ class Dice extends Component {
 
 
   render() {
+    console.log(this.props)
     console.log(`render-state:`, this.state)
     const { liveDice, heldDice, bankedDice } = this.state
     return (
@@ -131,4 +133,18 @@ class Dice extends Component {
   }
 }
 
-export default Dice;
+const mapStateToProps = state => {
+  return {
+    liveDice: state.liveDice,
+    heldDice: state.heldDice,
+    bankedDice: state.bankedDice,
+    diceToRoll: state.diceToRoll
+  }
+}
+const mapDispatchToProps = () => {
+  return {}
+}
+
+const DiceContainer = connect(mapStateToProps, mapDispatchToProps)(Dice)
+
+export default DiceContainer
