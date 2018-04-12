@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { calcDice, calcCurrentScore } from '../reducers'
+import { setDice, calcRollStore } from '../reducers'
 
 const dieImg = value => {
   return `https://cdn2.iconfinder.com/data/icons/dice-roll/100/dice_${value}-256.png`
@@ -8,7 +8,7 @@ const dieImg = value => {
 
 class Dice extends Component {
   render() {
-    const { liveDice, heldDice, allDice, toggleDice, totalScore } = this.props
+    const { liveDice, heldDice, allDice, toggleDice } = this.props
     return (
       <div id="all-dice">
         {allDice.map((d, i) => {
@@ -21,7 +21,7 @@ class Dice extends Component {
                     key={i} className="die-img"
                     src={dieImg(d.value)} alt={d.value}
                     onClick={() => {
-                      toggleDice(d, liveDice, heldDice, totalScore)
+                      toggleDice(d, liveDice, heldDice)
                     }}>
                   </img>
                 )
@@ -35,12 +35,15 @@ class Dice extends Component {
 }
 
 const mapStateToProps = state => {
-  const { liveDice, heldDice, bankDice, totalScore } = state
+  const { liveDice, heldDice, bankDice } = state
   return {
-    totalScore,
     liveDice,
     heldDice,
-    allDice: [{ name: `Live`, dice: liveDice }, { name: `Held`, dice: heldDice }, { name: `Bank`, dice: bankDice }],
+    allDice: [
+      { name: `Live`, dice: liveDice },
+      { name: `Held`, dice: heldDice },
+      { name: `Bank`, dice: bankDice }
+    ],
   }
 }
 
@@ -51,13 +54,13 @@ const flipDice = d => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    toggleDice: (d, liveDice, heldDice, totalScore) => {
+    toggleDice: (d, liveDice, heldDice) => {
       flipDice(d)
       const allDice = [...liveDice, ...heldDice]
       liveDice = allDice.filter(d => d.status === `live`)
       heldDice = allDice.filter(d => d.status === `held`)
-      dispatch(calcDice(liveDice, heldDice))
-      dispatch(calcCurrentScore(heldDice, totalScore))
+      dispatch(setDice(liveDice, heldDice))
+      dispatch(calcRollStore(heldDice))
     },
   }
 }

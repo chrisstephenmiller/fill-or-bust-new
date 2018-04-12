@@ -30,6 +30,14 @@ body {
   width: 300px;
 }
 
+#stop-btn {
+  display: block;
+  font-size: 32px;
+  color: black;
+  border: 3px solid black;
+  border-radius: 25%;
+}
+
 #roll-btn[value=true] {
   display: block;
   font-size: 32px;

@@ -4,18 +4,21 @@ import { connect } from 'react-redux'
 class Score extends Component {
 
   render() {
-    const { currentScore } = this.props
+    const { turn, rollScore, turnScore, totalScore } = this.props
     return (
       <div id="score">
-        <h1>Current score: {currentScore} </h1>
+        <h1>Turn: {turn}</h1>
+        <h1>Roll score: {rollScore} </h1>
+        <h1>Turn score: {turnScore} </h1>
+        <h1>Total score: {totalScore} </h1>
       </div>
     );
   }
 }
 
 const mapStateToProps = state => {
-  const { currentScore } = state
-  return { currentScore }
+  const { turn, rollScore, turnScore, totalScore } = state
+  return { turn, rollScore, turnScore, totalScore }
 }
 
 const ScoreContainer = connect(mapStateToProps)(Score)
