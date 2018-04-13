@@ -1,6 +1,6 @@
 // ROLLING
 const rollDie = () => {
-  return { value: Math.floor(Math.random() * 6 + 1), status: `live` }
+  return { value: Math.floor(Math.random() * 6 + 1), status: `live`, isPointer: false }
 }
 
 export const rollNewDice = dice => {
@@ -52,9 +52,16 @@ export const bankHeldDice = dice => {
 }
 
 //SCORING
-const countPointers = dice => {
+const countAllPointers = dice => {
   const pointers = [0, 0, 0, 0, 0, 0]
   dice.forEach(d => pointers[d.value - 1]++)
+  return pointers
+}
+
+const countLivePointers = dice => {
+  const pointers = [0, 0, 0, 0, 0, 0]
+  const heldDice = dice.filter(d => d.status === 'live')
+  heldDice.forEach(d => pointers[d.value - 1]++)
   return pointers
 }
 
@@ -104,17 +111,31 @@ export const calcTotalScore = (rollScore, turnScore, totalScore) => {
 
 //FILL-OR-BUST
 export const fillOrBust = dice => {
-  let state = 'test'
-  const pointers = countPointers(dice)
-  console.log(pointers)
-  let validate = pointers.map((p, i) => {
+  let state = 'live'
+  const livePointers = countLivePointers(dice)
+  const allPointers = countAllPointers(dice)
+  let fill = livePointers.map((p, i) => {
     if ((i === 0 || i === 4) && p > 0) return true
-    else if (p > 2) return true
+    else if (p === 0 || p > 2) return true
     else return false
   })
-  console.log(validate)
+  if (allPointers.filter(p => p === 1).length === 6) fill = true
+  const bust = livePointers.map((p, i) => {
+    if ((i === 0 || i === 4) && p > 0) return false
+    else if (p > 2) return false
+    else return true
+  })
+  if (fill.filter(f => f).length === 6) state = `fill`
+  if (bust.filter(f => f).length === 6) state = `bust`
   return dispatch => {
     dispatch(setTurnState(state))
+  }
+}
+
+export const incrementRolls = numRolls => {
+  const newNumRolls = numRolls + 1
+  return dispatch => {
+    dispatch(setNumRolls(newNumRolls))
   }
 }
 
@@ -124,7 +145,8 @@ const initialState = {
   rollScore: 0,
   turnScore: 0,
   totalScore: 0,
-  turnState: `live`
+  turnState: `live`,
+  numRolls: 0,
 }
 
 const SET_DICE = `SET_DICE`
@@ -132,6 +154,7 @@ const SET_ROLL_SCORE = `SET_ROLL_SCORE`
 const SET_TURN_SCORE = `SET_TURN_SCORE`
 const SET_TOTAL_SCORE = `SET_TOTAL_SCORE`
 const SET_TURN_STATE = `SET_TURN_STATE`
+const SET_NUM_ROLLS = `SET_NUM_ROLLS`
 
 const setDice = dice => {
   return {
@@ -168,6 +191,13 @@ const setTurnState = state => {
   }
 }
 
+const setNumRolls = rolls => {
+  return {
+    type: SET_NUM_ROLLS,
+    rolls
+  }
+}
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_DICE:
@@ -189,6 +219,10 @@ const reducer = (state = initialState, action) => {
     case SET_TURN_STATE:
       return {
         ...state, turnState: action.state
+      }
+    case SET_NUM_ROLLS:
+      return {
+        ...state, numRolls: action.rolls
       }
     default: return state
   }

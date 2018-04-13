@@ -7,6 +7,7 @@ const dieImg = value => {
 }
 
 class Dice extends Component {
+
   render() {
     const { dice, toggleDiceStatus, calcRollScore } = this.props
     return <div className="dice">

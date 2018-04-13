@@ -1,16 +1,23 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { calcTurnScore, bankHeldDice, rollLiveDice, rollNewDice, fillOrBust } from '../reducers'
+import { calcTurnScore, bankHeldDice, rollLiveDice, rollNewDice, fillOrBust, incrementRolls } from '../reducers'
 
 class Roll extends Component {
 
-  componentDidUpdate = () => {
-    const { dice, fillOrBust } = this.props
-    fillOrBust(dice)
-  }
+  // shouldComponentUpdate = () => {
+  //   const { numRolls } = this.props
+  //   if (this.numRolls = numRolls) return false
+  //   return true
+  // }
+
+  // componentDidUpdate = () => {
+  //   const { dice, numRolls, fillOrBust } = this.props
+  //   this.numRolls = numRolls
+  //   fillOrBust(dice)
+  // }
 
   render() {
-    const { dice, rollScore, turnScore, calcTurnScore, bankHeldDice, rollLiveDice, rollNewDice, fillOrBust } = this.props
+    const { dice, rollScore, turnScore, calcTurnScore, bankHeldDice, rollLiveDice, rollNewDice, fillOrBust, incrementRolls, numRolls } = this.props
     return <div id="roll">
       <button
         id="roll-btn"
@@ -19,6 +26,7 @@ class Roll extends Component {
           bankHeldDice(dice)
           rollLiveDice(dice)
           rollNewDice(dice)
+          incrementRolls(numRolls)
         }}>
         Roll
       </button>
@@ -27,8 +35,8 @@ class Roll extends Component {
 }
 
 const mapStateToProps = state => {
-  const { dice, rollScore, turnScore } = state
-  return { dice, rollScore, turnScore }
+  const { dice, rollScore, turnScore, numRolls } = state
+  return { dice, rollScore, turnScore, numRolls }
 }
 
 const mapDispatchToProps = dispatch => {
@@ -46,7 +54,11 @@ const mapDispatchToProps = dispatch => {
       dispatch(fillOrBust(dice))
     },
     rollNewDice: dice => {
+      if (dice.length !== 0) return
       dispatch(rollNewDice(dice))
+    },
+    incrementRolls: numRolls => {
+      dispatch(incrementRolls(numRolls))
     }
   }
 }
