@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Dice from './dice'
 import Roll from './roll'
+import Stop from './stop'
+import Score from './score'
 
 class Game extends Component {
 
@@ -9,6 +11,8 @@ class Game extends Component {
       <div id="game">
         <Dice />
         <Roll />
+        <Stop />
+        <Score />
       </div>
     );
   }

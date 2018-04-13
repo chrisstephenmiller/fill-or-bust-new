@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { toggleDiceState } from '../reducers'
+import { toggleDiceStatus, calcRollScore } from '../reducers'
 
 const dieImg = value => {
   return `https://cdn2.iconfinder.com/data/icons/dice-roll/100/dice_${value}-256.png`
@@ -8,7 +8,7 @@ const dieImg = value => {
 
 class Dice extends Component {
   render() {
-    const { dice, toggleDiceState } = this.props
+    const { dice, toggleDiceStatus, calcRollScore } = this.props
     return <div className="dice">
       {dice.map((d, i) => {
         return (
@@ -16,7 +16,11 @@ class Dice extends Component {
             <img
               className="die-img"
               src={dieImg(d.value)} alt={d.value}
-              onClick={() => toggleDiceState(i, dice)}>
+              onClick={() => {
+                if (d.status === `bank`) return
+                toggleDiceStatus(i, dice)
+                calcRollScore(dice)
+              }}>
             </img>
             <h4>{d.status}</h4>
           </div>
@@ -33,8 +37,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    toggleDiceState: (i, dice) => {
-      dispatch(toggleDiceState(i, dice))
+    toggleDiceStatus: (i, dice) => {
+      dispatch(toggleDiceStatus(i, dice))
+    },
+    calcRollScore: dice => {
+      dispatch(calcRollScore(dice))
     }
   }
 }
