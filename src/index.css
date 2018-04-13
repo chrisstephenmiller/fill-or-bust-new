@@ -4,78 +4,15 @@ body {
   font-family: sans-serif;
 }
 
-#game {
+.dice {
   display: inline-flex;
-  flex-direction: column;
-  margin: 10px;
-}
-
-#all-dice {
-  display: flex;
-  flex-direction: column;
-}
-
-.dice-row {
-  display: inline-flex;
-  align-items: center;
-}
-
-.dice-name {
-  width: 75px;
-}
-
-#roll {
-  display: inline-flex;
-  justify-content: space-between;
-  width: 300px;
-}
-
-#stop-btn {
-  display: block;
-  font-size: 32px;
-  color: black;
-  border: 3px solid black;
-  border-radius: 25%;
-}
-
-#roll-btn[value=true] {
-  display: block;
-  font-size: 32px;
-  color: black;
-  border: 3px solid black;
-  border-radius: 25%;
-}
-
-#roll-btn[value=false] {
-  display: block;
-  font-size: 32px;
-  color: grey;
-  background-color: lightgray;
-  border: 3px solid grey;
-  border-radius: 25%;
-}
-
-#roll-btn[value=true]:hover {
-  color: white;
-  background-color: lightgreen;
-  box-shadow: 1px 1px 1px black;
-}
-
-#roll-btn[value=false]:hover {
-  color: lightcoral;
-}
-
-#roll-btn:focus {
-  outline: none;
-}
-
-.pointer-error {
-  opacity: 1;
-  color: lightcoral;
 }
 
 .die-img {
   width: 50px;
   height: 50px;
+}
+
+h4 {
   margin: 5px;
 }
