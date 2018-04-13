@@ -9,7 +9,7 @@ export const rollNewDice = dice => {
     const die = rollDie()
     newDice.push(die)
   }
-  return dispatch =>{
+  return dispatch => {
     dispatch(setDice(newDice))
   }
 }
@@ -54,6 +54,12 @@ export const bankHeldDice = dice => {
 //SCORING
 const countPointers = dice => {
   const pointers = [0, 0, 0, 0, 0, 0]
+  dice.forEach(d => pointers[d.value - 1]++)
+  return pointers
+}
+
+const countHeldPointers = dice => {
+  const pointers = [0, 0, 0, 0, 0, 0]
   const heldDice = dice.filter(d => d.status === 'held')
   heldDice.forEach(d => pointers[d.value - 1]++)
   return pointers
@@ -72,7 +78,7 @@ const calcPointers = pointers => {
 }
 
 export const calcRollScore = dice => {
-  const pointers = countPointers(dice)
+  const pointers = countHeldPointers(dice)
   const newRollScore = calcPointers(pointers)
   return dispatch => {
     dispatch(setRollScore(newRollScore))
@@ -96,8 +102,25 @@ export const calcTotalScore = (rollScore, turnScore, totalScore) => {
   }
 }
 
+//FILL-OR-BUST
+export const fillOrBust = dice => {
+  let state = 'test'
+  const pointers = countPointers(dice)
+  console.log(pointers)
+  let validate = pointers.map((p, i) => {
+    if ((i === 0 || i === 4) && p > 0) return true
+    else if (p > 2) return true
+    else return false
+  })
+  console.log(validate)
+  return dispatch => {
+    dispatch(setTurnState(state))
+  }
+}
+
+// [rollDie(), rollDie(), rollDie(), rollDie(), rollDie(), rollDie()]
 const initialState = {
-  dice: [rollDie(), rollDie(), rollDie(), rollDie(), rollDie(), rollDie()],
+  dice: [],
   rollScore: 0,
   turnScore: 0,
   totalScore: 0,

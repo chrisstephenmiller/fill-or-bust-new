@@ -42,7 +42,7 @@ const mapDispatchToProps = dispatch => {
     },
     calcRollScore: dice => {
       dispatch(calcRollScore(dice))
-    }
+    },
   }
 }
 

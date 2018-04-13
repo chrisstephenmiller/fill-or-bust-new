@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { calcTurnScore, bankHeldDice, rollLiveDice, rollNewDice } from '../reducers'
+import { calcTurnScore, bankHeldDice, rollLiveDice, rollNewDice, fillOrBust } from '../reducers'
 
 class Roll extends Component {
+
+  componentDidMount = () => {
+    const { dice, fillOrBust } = this.props
+    fillOrBust(dice)
+  }
+
   render() {
-    const { dice, rollScore, turnScore, calcTurnScore, bankHeldDice, rollLiveDice, rollNewDice } = this.props
+    const { dice, rollScore, turnScore, calcTurnScore, bankHeldDice, rollLiveDice, rollNewDice, fillOrBust } = this.props
     return <div id="roll">
       <button
         id="roll-btn"
@@ -12,7 +18,7 @@ class Roll extends Component {
           calcTurnScore(rollScore, turnScore)
           bankHeldDice(dice)
           rollLiveDice(dice)
-          // rollNewDice(dice)
+          rollNewDice(dice)
         }}>
         Roll
       </button>
@@ -35,6 +41,9 @@ const mapDispatchToProps = dispatch => {
     },
     rollLiveDice: dice => {
       dispatch(rollLiveDice(dice))
+    },
+    fillOrBust: dice => {
+      dispatch(fillOrBust(dice))
     },
     rollNewDice: dice => {
       dispatch(rollNewDice(dice))
