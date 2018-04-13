@@ -4,7 +4,7 @@ import { calcTurnScore, bankHeldDice, rollLiveDice, rollNewDice, fillOrBust } fr
 
 class Roll extends Component {
 
-  componentDidMount = () => {
+  componentDidUpdate = () => {
     const { dice, fillOrBust } = this.props
     fillOrBust(dice)
   }
